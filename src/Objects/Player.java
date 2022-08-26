@@ -83,6 +83,9 @@ public class Player {
   public Item getLeg() {
     return leg;
   }
+  public Item[] getItems() {
+    return new Item[]{getEye(), getHeart(), getArm(), getLeg()};
+  }
   public Enemy getEnemy() {
     return enemy;
   }

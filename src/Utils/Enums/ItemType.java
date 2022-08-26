@@ -1,5 +1,5 @@
 package Utils.Enums;
 
 public enum ItemType {
-  eye, heart, arm, leg
+  eye, heart, arm, leg, any
 }

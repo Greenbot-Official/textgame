@@ -47,4 +47,7 @@ public class Enemy {
   public Item getLeg() {
     return leg;
   }
+  public Item[] getItems() {
+    return new Item[]{getEye(), getHeart(), getArm(), getLeg()};
+  }
 }
