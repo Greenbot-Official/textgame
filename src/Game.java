@@ -2,6 +2,7 @@ import Objects.Enemy;
 import Objects.Player;
 import Utils.Constants;
 import Utils.Items;
+import Utils.Utils;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -41,8 +42,14 @@ public class Game {
     user.setHeart(Items.heart);
     user.setArm(Items.arm);
     user.setLeg(Items.leg);
+    user.setMaxhp(Utils.calchp(user.getItems()));
+    user.fullheal();
+    user.setMaxmana(Utils.calcmana(user.getItems()));
+    user.fullmana();
     user.setEnemy(new Enemy(Constants.feederhp, Constants.feederItems));
     user.setCombat(true);
+    user.setTurn(true);
+    Logic.combat(user);
   }
 
 }

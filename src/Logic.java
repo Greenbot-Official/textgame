@@ -1,8 +1,12 @@
 import Objects.Item;
 import Objects.Player;
+import Utils.Enums.Attribute;
 import Utils.Enums.Command;
+import Utils.Utils;
 
 import javax.annotation.processing.SupportedAnnotationTypes;
+
+import static Utils.Utils.calcdamage;
 
 public class Logic {
   public Logic() {}
@@ -19,11 +23,21 @@ public class Logic {
         System.out.println("arm: " + user.getArm().name() + " - " + user.getArm().special());
         System.out.println("leg: " + user.getLeg().name() + " - " + user.getLeg().special());
         break;
+      case attack:
+        if (!user.isCombat()) {
+          System.out.println("Cannot use that while not in combat");
+          break;
+        }
+        user.getEnemy().damage(calcdamage(user.getItems()));
+        System.out.println("you hit the enemy for: " + calcdamage(user.getItems()) + " damage");
+        user.setTurn(false);
+        break;
       case quit:
         Game.end();
         break;
       case unknown:
         System.out.println("Unknown command (" + input + "), try \"help\" to get help");
+        break;
     }
   }
 
@@ -34,6 +48,8 @@ public class Logic {
       return Command.inv;
     } else if (input.equals("q")) {
       return Command.quit;
+    } else if (input.equals("a") || input.equals("attack")) {
+      return Command.attack;
     } else if (input.equals(user.getEye().special().toString())) {
       return Command.special_eye;
     } else if (input.equals(user.getHeart().special().toString())) {
@@ -46,19 +62,28 @@ public class Logic {
   }
 
   public static void combat(Player user) {
-    if (!user.isCombat() || user.getTurn()) return;
-    Command enemymove = getAi();
-    switch (enemymove) {
-      case attack:
-        user.damage(calcdamage(user.getEnemy().getItems()));
-        break;
+    if (!user.isCombat()) return;
+    if (!user.getTurn()) {
+      Command enemymove = getAi();
+      switch (enemymove) {
+        case attack:
+          user.damage(calcdamage(user.getEnemy().getItems()));
+          System.out.println("Enemy hit you for: " + calcdamage(user.getEnemy().getItems()) + " damage");
+          user.setTurn(true);
+          break;
+      }
     }
+    System.out.println("Hp: " + user.getHp() + "/" + user.getMaxhp());
+    System.out.println("Mana: " + user.getMana() + "/" + user.getMaxmana());
+    System.out.println("\nEnemy:");
+    System.out.println("Hp: " + user.getEnemy().getHp() + "/" + user.getEnemy().getMaxhp());
   }
   public static Command getAi() {
     return Command.attack;
   }
 
-  public static int calcdamage(Item[] items) {
-    return 0;
+  public static void kill() {
+
   }
+
 }

@@ -2,12 +2,16 @@ package Objects;
 
 public class Player {
   private String name;
+
+
   private int maxhp;
+
+
   private int hp;
+
+
   private int maxmana;
   private int mana;
-  private int maxenergy;
-  private int energy;
 
   private Item eye;
   private Item heart;
@@ -19,12 +23,10 @@ public class Player {
 
   public Player(String name) {
     this.name = name;
-    maxhp = 100;
+    maxhp = 0;
     hp = maxhp;
-    maxmana = 100;
+    maxmana = 0;
     mana = maxmana;
-    maxenergy = 100;
-    energy = maxenergy;
     combat = false;
     playerturn = true;
   }
@@ -42,19 +44,6 @@ public class Player {
   public void healmana(int heal) {
     mana += heal;
     if (mana>maxmana) mana = maxmana;
-  }
-  public void healenergy(int heal) {
-    energy += heal;
-    if (energy>maxenergy) energy = maxenergy;
-  }
-  public void addmaxhp(int add) {
-    maxhp += add;
-  }
-  public void addmaxmana(int add) {
-    maxmana += add;
-  }
-  public void addmaxenergy(int add) {
-    maxenergy += add;
   }
   public boolean isCombat() {
     return combat;
@@ -103,5 +92,31 @@ public class Player {
   }
   public void toggleTurn() {
     playerturn = !playerturn;
+  }
+
+  public int getMaxmana() {
+    return maxmana;
+  }
+
+  public int getMana() {
+    return mana;
+  }
+  public void setMaxmana(int maxmana) {
+    this.maxmana = maxmana;
+  }
+  public void setMaxhp(int maxhp) {
+    this.maxhp = maxhp;
+  }
+  public int getHp() {
+    return hp;
+  }
+  public int getMaxhp() {
+    return maxhp;
+  }
+  public void fullheal() {
+    this.hp = this.maxhp;
+  }
+  public void fullmana() {
+    this.mana = this.maxmana;
   }
 }
