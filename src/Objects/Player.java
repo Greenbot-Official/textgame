@@ -1,18 +1,12 @@
 package Objects;
 
+import org.ietf.jgss.GSSName;
+
 public class Player {
-  private String name;
-
-
   private int maxhp;
-
-
   private int hp;
-
-
   private int maxmana;
   private int mana;
-
   private Item eye;
   private Item heart;
   private Item arm;
@@ -20,20 +14,20 @@ public class Player {
   private boolean combat;
   private boolean playerturn;
   private Enemy enemy;
+  private boolean dead;
+  private boolean loot;
 
-  public Player(String name) {
-    this.name = name;
+  public Player() {
     maxhp = 0;
     hp = maxhp;
     maxmana = 0;
     mana = maxmana;
     combat = false;
     playerturn = true;
+    dead = false;
+    loot = false;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
   public void damage(int dmg) {
     hp -= dmg;
   }
@@ -118,5 +112,26 @@ public class Player {
   }
   public void fullmana() {
     this.mana = this.maxmana;
+  }
+  public boolean isDead() {
+    return dead;
+  }
+  public void setDead (boolean dead) {
+    this.dead = dead;
+  }
+  public boolean isLoot () {
+    return loot;
+  }
+  public void setLoot (boolean loot) {
+    this.loot = loot;
+  }
+  public void die() {
+    System.out.println("you have died");
+    setDead(true);
+  }
+  public void kill () {
+    System.out.println("\nyou have killed an enemy");
+    setLoot(true);
+    setCombat(false);
   }
 }

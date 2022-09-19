@@ -12,9 +12,10 @@ public class Game {
   private Scanner input;
 
   private Player user;
-  public Game(String name) {
+
+  public Game() {
     input = new Scanner(System.in);
-    user = new Player("player");
+    user = new Player();
   }
 
   public void start() {
@@ -27,9 +28,12 @@ public class Game {
 
   private void loop() {
     while (isRunning) {
+      if (user.isLoot()) Logic.lootMenu(user);
       String text = input.nextLine().toLowerCase();
       Logic.readInput(user, text);
       Logic.combat(user);
+      if (user.getHp() <= 0) user.die();
+      if (user.getEnemy().getHp() <= 0 && user.isCombat()) user.kill();
     }
   }
 
