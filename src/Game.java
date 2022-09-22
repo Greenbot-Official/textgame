@@ -28,6 +28,7 @@ public class Game {
 
   private void loop() {
     while (isRunning) {
+      if (!user.isLoot() && !user.isDead() && !user.isCombat()) Logic.menu(user);
       if (user.isLoot()) Logic.lootMenu(user);
       String text = input.nextLine().toLowerCase();
       Logic.readInput(user, text);

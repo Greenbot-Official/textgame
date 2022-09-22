@@ -4,9 +4,8 @@ import Utils.Enums.Attribute;
 import Utils.Enums.Command;
 import Utils.Utils;
 
-import javax.annotation.processing.SupportedAnnotationTypes;
-
 import static Utils.Utils.calcdamage;
+import Utils.LocationMap;
 
 public class Logic {
   public Logic() {}
@@ -14,9 +13,10 @@ public class Logic {
   public static void readInput (Player user, String input) {
     switch (getCommand(input, user)) {
       case help:
-        System.out.println("\"i\" - to view inventory, \"q\" - quit");
+        System.out.println("\"i\" - to view inventory, \"quest\" - view current quest, \"q\" - quit");
         if (user.isCombat()) System.out.println("\"a\" - to use default attack, or type the name of a special on an item to use it");
         if (user.isLoot()) System.out.println("type the name of the part you want to loot");
+        if (!user.isLoot() && !user.isCombat() && !user.isDead()) System.out.println("type \"n, s, e, w\" to move in that direction");
         break;
       case inv:
         System.out.println("eye: " + user.getEye().name() + " - " + user.getEye().special());
@@ -28,6 +28,41 @@ public class Logic {
         user.getEnemy().damage(calcdamage(user.getItems()));
         System.out.println("you hit the enemy for: " + calcdamage(user.getItems()) + " damage");
         user.setTurn(false);
+        break;
+      case getquest:
+        System.out.println(user.getQuest().questname() + " - " + user.getQuest().desc());
+        break;
+      case north:
+        if (user.canMove("n")) {
+          user.move("n");
+          System.out.println("moved north");
+        } else {
+          System.out.println("can't go that way");
+        }
+        break;
+      case east:
+        if (user.canMove("e")) {
+          user.move("e");
+          System.out.println("moved east");
+        } else {
+          System.out.println("can't go that way");
+        }
+        break;
+      case south:
+        if (user.canMove("s")) {
+          user.move("s");
+          System.out.println("moved south");
+        } else {
+          System.out.println("can't go that way");
+        }
+        break;
+      case west:
+        if (user.canMove("w")) {
+          user.move("w");
+          System.out.println("moved west");
+        } else {
+          System.out.println("can't go that way");
+        }
         break;
       case quit:
         Game.end();
@@ -55,25 +90,38 @@ public class Logic {
   }
 
   public static Command getCommand(String input, Player user) {
-    if (!user.isCombat() && !user.isDead() && !user.isLoot()) {
-      // not in combat commands
-      if (input.equals("h") || input.equals("help")) {
+    // global commands
+    switch (input) {
+      case "h":
+      case "help":
         return Command.help;
-      } else if (input.equals("i") || input.equals("inv")) {
+      case "i":
+      case "inv":
         return Command.inv;
-      } else if (input.equals("q")) {
+      case "q":
         return Command.quit;
-      } else { return Command.unknown; }
-
+      case "quest":
+      case "getquest":
+        return Command.getquest;
+    }
+    if (!user.isCombat() && !user.isDead() && !user.isLoot()) {
+      switch (input) {
+        case "n":
+        case "north":
+          return Command.north;
+        case "e":
+        case "east":
+          return Command.east;
+        case "s":
+        case "south":
+          return Command.south;
+        case "w":
+        case "west":
+          return Command.west;
+      }
     } else if (user.isCombat() && !user.isDead()) {
       // combat commands
-      if (input.equals("h") || input.equals("help")) {
-        return Command.help;
-      } else if (input.equals("i") || input.equals("inv")) {
-        return Command.inv;
-      } else if (input.equals("q")) {
-        return Command.quit;
-      } else if (input.equals("a") || input.equals("attack")) {
+      if (input.equals("a") || input.equals("attack")) {
         return Command.attack;
       } else if (input.equals(user.getEye().special().toString())) {
         return Command.special_eye;
@@ -83,37 +131,41 @@ public class Logic {
         return Command.special_arm;
       } else if (input.equals(user.getLeg().special().toString())) {
         return Command.special_leg;
-      } else { return Command.unknown; }
+      }
 
     } else if (user.isDead()) {
       // dead commands
-      if (input.equals("h") || input.equals("help")) {
-        return Command.help;
-      } else if (input.equals("i") || input.equals("inv")) {
-        return Command.inv;
-      } else if (input.equals("q")) {
-        return Command.quit;
-      } else { return Command.unknown; }
 
     } else if (user.isLoot()) {
       // loot table commands
-      if (input.equals("h") || input.equals("help")) {
-        return Command.help;
-      } else if (input.equals("i") || input.equals("inv")) {
-        return Command.inv;
-      } else if (input.equals("q")) {
-        return Command.quit;
-      } else if (input.equals("eye") || input.equals("1")) {
-        return Command.loot_eye;
-      } else if (input.equals("heart") || input.equals("2")) {
-        return Command.loot_heart;
-      } else if (input.equals("arm") || input.equals("3")) {
-        return Command.loot_arm;
-      } else if (input.equals("leg") || input.equals("4")) {
-        return Command.loot_leg;
-      } else { return Command.unknown; }
+      switch (input) {
+        case "eye":
+        case "1":
+          return Command.loot_eye;
+        case "heart":
+        case "2":
+          return Command.loot_heart;
+        case "arm":
+        case "3":
+          return Command.loot_arm;
+        case "leg":
+        case "4":
+          return Command.loot_leg;
+      }
     }
     return Command.unknown;
+  }
+
+  public static void menu(Player user) {
+    if (user.getMapPos().town()) {
+    } else {
+      String tmp = "you can go";
+      if (user.canMove("n")) tmp = tmp + ", North";
+      if (user.canMove("e")) tmp = tmp + ", East";
+      if (user.canMove("s")) tmp = tmp + ", South";
+      if (user.canMove("w")) tmp = tmp + ", West";
+      System.out.println(tmp);
+    }
   }
 
   public static void lootMenu(Player user) {

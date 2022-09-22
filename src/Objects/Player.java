@@ -1,5 +1,7 @@
 package Objects;
 
+import Utils.LocationMap;
+import Utils.Quests;
 import org.ietf.jgss.GSSName;
 
 public class Player {
@@ -16,6 +18,9 @@ public class Player {
   private Enemy enemy;
   private boolean dead;
   private boolean loot;
+  private Quest quest;
+  private int xPos;
+  private int yPos;
 
   public Player() {
     maxhp = 0;
@@ -26,6 +31,9 @@ public class Player {
     playerturn = true;
     dead = false;
     loot = false;
+    this.quest = Quests.first;
+    xPos = 0;
+    yPos = 0;
   }
 
   public void damage(int dmg) {
@@ -133,5 +141,64 @@ public class Player {
     System.out.println("\nyou have killed an enemy");
     setLoot(true);
     setCombat(false);
+  }
+  public Quest getQuest() {
+    return quest;
+  }
+  public void setQuest(Quest quest) {
+    this.quest = quest;
+  }
+  public int getxPos() {
+    return xPos;
+  }
+  public void setxPos(int xPos) {
+    this.xPos = xPos;
+  }
+  public int getyPos() {
+    return yPos;
+  }
+  public void setyPos(int yPos) {
+    this.yPos = yPos;
+  }
+
+  /**
+   * @param direction n, s, e, w
+   * @return true or false
+   */
+  public boolean canMove(String direction) {
+    switch (direction) {
+      case "n":
+        return LocationMap.map[yPos][xPos].n();
+      case "e":
+        return LocationMap.map[yPos][xPos].e();
+      case "s":
+        return LocationMap.map[yPos][xPos].s();
+      case "w":
+        return LocationMap.map[yPos][xPos].w();
+      default:
+        return false;
+    }
+  }
+  /**
+   * @param direction n, s, e, w
+   */
+  public void move(String direction) {
+    switch (direction) {
+      case "n":
+        yPos -= 1;
+        break;
+      case "e":
+        xPos += 1;
+        break;
+      case "s":
+        yPos += 1;
+        break;
+      case "w":
+        xPos -= 1;
+        break;
+    }
+  }
+  public Location getMapPos() {
+    return LocationMap.map[yPos][xPos];
   }
 }
