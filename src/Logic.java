@@ -6,6 +6,7 @@ import Utils.Utils;
 
 import static Utils.Utils.calcdamage;
 import Utils.LocationMap;
+import Utils.Quests;
 
 public class Logic {
   public Logic() {}
@@ -36,6 +37,7 @@ public class Logic {
         if (user.canMove("n")) {
           user.move("n");
           System.out.println("moved north");
+          if (user.getMapPos().town()) enterTown(user);
         } else {
           System.out.println("can't go that way");
         }
@@ -44,6 +46,7 @@ public class Logic {
         if (user.canMove("e")) {
           user.move("e");
           System.out.println("moved east");
+          if (user.getMapPos().town()) enterTown(user);
         } else {
           System.out.println("can't go that way");
         }
@@ -52,6 +55,7 @@ public class Logic {
         if (user.canMove("s")) {
           user.move("s");
           System.out.println("moved south");
+          if (user.getMapPos().town()) enterTown(user);
         } else {
           System.out.println("can't go that way");
         }
@@ -60,6 +64,7 @@ public class Logic {
         if (user.canMove("w")) {
           user.move("w");
           System.out.println("moved west");
+          if (user.getMapPos().town()) enterTown(user);
         } else {
           System.out.println("can't go that way");
         }
@@ -158,14 +163,14 @@ public class Logic {
 
   public static void menu(Player user) {
     if (user.getMapPos().town()) {
-    } else {
-      String tmp = "you can go";
-      if (user.canMove("n")) tmp = tmp + ", North";
-      if (user.canMove("e")) tmp = tmp + ", East";
-      if (user.canMove("s")) tmp = tmp + ", South";
-      if (user.canMove("w")) tmp = tmp + ", West";
-      System.out.println(tmp);
+      System.out.println();
     }
+    String tmp = "\nyou can go";
+    if (user.canMove("n")) tmp = tmp + ", North";
+    if (user.canMove("e")) tmp = tmp + ", East";
+    if (user.canMove("s")) tmp = tmp + ", South";
+    if (user.canMove("w")) tmp = tmp + ", West";
+    System.out.println(tmp);
   }
 
   public static void lootMenu(Player user) {
@@ -192,6 +197,18 @@ public class Logic {
     System.out.println("\nEnemy:");
     System.out.println("Hp: " + user.getEnemy().getHp() + "/" + user.getEnemy().getMaxhp());
   }
+
+  public static void questComplete(Player user) {
+    System.out.println("Completed quest: " + user.getQuest().questname());
+    user.setComplete(false);
+    user.setQuest(user.getQuest().nextQuest());
+  }
+
+  public static void enterTown(Player user) {
+    System.out.println("\nyou have entered town");
+    if (user.getQuest() == Quests.town) user.setComplete(true);
+  }
+
   public static Command getAi() {
     return Command.attack;
   }

@@ -3,15 +3,16 @@ import Objects.Player;
 import Utils.Constants;
 import Utils.Items;
 import Utils.Utils;
+import Utils.Quests;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game {
   private static boolean isRunning;
-  private Scanner input;
+  private final Scanner input;
 
-  private Player user;
+  private final Player user;
 
   public Game() {
     input = new Scanner(System.in);
@@ -25,9 +26,9 @@ public class Game {
     System.out.println("exiting ...");
   }
 
-
   private void loop() {
     while (isRunning) {
+      if (user.getComplete()) Logic.questComplete(user);
       if (!user.isLoot() && !user.isDead() && !user.isCombat()) Logic.menu(user);
       if (user.isLoot()) Logic.lootMenu(user);
       String text = input.nextLine().toLowerCase();
@@ -51,6 +52,7 @@ public class Game {
     user.fullheal();
     user.setMaxmana(Utils.calcmana(user.getItems()));
     user.fullmana();
+    user.setQuest(Quests.first);
     user.setEnemy(new Enemy(Constants.feederhp, Constants.feederItems));
     user.setCombat(true);
     user.setTurn(true);
