@@ -3,7 +3,7 @@ package Utils;
 import Objects.Item;
 import Utils.Enums.Attribute;
 
-public class Utils {
+public final class Utils {
   public static int calcdamage(Item[] items) {
     float mult = 0f;
     mult += items[0].attribute() == Attribute.str ? items[0].atrib() : 0f;

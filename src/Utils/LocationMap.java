@@ -4,7 +4,7 @@ import Objects.Location;
 import Objects.Road;
 import Objects.Town;
 
-public class LocationMap {
+public final class LocationMap {
   private static final Location empty = new Road("empty", false, false, false, false);
 
   private static final Location roadN = new Road("road", true, false, false, false);
@@ -25,7 +25,9 @@ public class LocationMap {
    * @apiNote [Y,X] north is -y
    */
   public static Location[][] map =
-    {{roadE, roadEW, roadSW},
-      {empty, empty, ftown},
-      {empty, empty, roadN}};
+    {{roadE, roadEW, roadSW, empty, empty},
+      {empty, empty, ftown, empty, empty},
+      {empty, empty, roadN, empty, empty},
+      {empty, empty, empty, empty, empty},
+      {empty, empty, empty, empty, empty},};
 }
