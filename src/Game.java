@@ -1,11 +1,10 @@
 import Objects.Enemy;
 import Objects.Player;
-import Utils.Constants;
+import Utils.Enemies;
 import Utils.Items;
 import Utils.Utils;
 import Utils.Quests;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game {
@@ -53,7 +52,7 @@ public class Game {
     user.setMaxmana(Utils.calcmana(user.getItems()));
     user.fullmana();
     user.setQuest(Quests.first);
-    user.setEnemy(new Enemy(Constants.feederhp, Constants.feederItems));
+    user.setEnemy(new Enemy(Enemies.feederhp, Enemies.feederItems));
     user.setCombat(true);
     user.setTurn(true);
     Logic.combat(user);
