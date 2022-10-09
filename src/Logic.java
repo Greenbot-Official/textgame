@@ -98,7 +98,7 @@ public class Logic {
         String npcName = Game.input.nextLine().toLowerCase();
         for (NPC npc : user.getMapPos().getNpcs()) {
           if (npcName.toLowerCase().equals(npcName)) {
-            if (user.getQuest() != null) {
+            if (user.getQuest() == null || user.getQuest() == Quests.none) {
               System.out.println(npc.getTalk().get(npc.getTalkIndex()));
               user.setQuest(npc.getQuests().get(npc.getTalkIndex()));
               npc.setTalkIndex(npc.getTalkIndex() + 1);
