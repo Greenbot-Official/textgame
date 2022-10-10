@@ -2,19 +2,19 @@ package Objects;
 
 import Utils.LocationMap;
 import Utils.Quests;
-import org.ietf.jgss.GSSName;
+import Utils.Utils;
 
 public class Player {
-  private int maxhp;
+  private int maxHp;
   private int hp;
-  private int maxmana;
+  private int maxMana;
   private int mana;
   private Item eye;
   private Item heart;
   private Item arm;
   private Item leg;
   private boolean combat;
-  private boolean playerturn;
+  private boolean playerTurn;
   private Enemy enemy;
   private boolean dead;
   private boolean loot;
@@ -23,19 +23,25 @@ public class Player {
   private int yPos;
   private boolean questCompleted;
 
+  private boolean randomEncounters;
+
+  private float encounterChance;
+
   public Player() {
-    maxhp = 0;
-    hp = maxhp;
-    maxmana = 0;
-    mana = maxmana;
-    combat = false;
-    playerturn = true;
-    dead = false;
-    loot = false;
+    this.maxHp = 0;
+    this.hp = maxHp;
+    this.maxMana = 0;
+    this.mana = maxMana;
+    this.combat = false;
+    this.playerTurn = true;
+    this.dead = false;
+    this.loot = false;
     this.quest = Quests.first;
-    xPos = 0;
-    yPos = 0;
-    questCompleted = false;
+    this.xPos = 0;
+    this.yPos = 0;
+    this.questCompleted = false;
+    this.randomEncounters = false;
+    this.encounterChance = 0;
   }
 
   public void damage(int dmg) {
@@ -43,11 +49,11 @@ public class Player {
   }
   public void heal(int heal) {
     hp += heal;
-    if (hp>maxhp) hp = maxhp;
+    if (hp> maxHp) hp = maxHp;
   }
-  public void healmana(int heal) {
+  public void healMana(int heal) {
     mana += heal;
-    if (mana>maxmana) mana = maxmana;
+    if (mana> maxMana) mana = maxMana;
   }
   public boolean isCombat() {
     return combat;
@@ -89,37 +95,37 @@ public class Player {
     combat = iscombat;
   }
   public boolean getTurn() {
-    return playerturn;
+    return playerTurn;
   }
   public void setTurn(boolean turn) {
-    playerturn = turn;
+    playerTurn = turn;
   }
   public void toggleTurn() {
-    playerturn = !playerturn;
+    playerTurn = !playerTurn;
   }
-  public int getMaxmana() {
-    return maxmana;
+  public int getMaxMana() {
+    return maxMana;
   }
   public int getMana() {
     return mana;
   }
-  public void setMaxmana(int maxmana) {
-    this.maxmana = maxmana;
+  public void setMaxMana(int maxmana) {
+    this.maxMana = maxmana;
   }
-  public void setMaxhp(int maxhp) {
-    this.maxhp = maxhp;
+  public void setMaxHp(int maxhp) {
+    this.maxHp = maxhp;
   }
   public int getHp() {
     return hp;
   }
-  public int getMaxhp() {
-    return maxhp;
+  public int getMaxHp() {
+    return maxHp;
   }
-  public void fullheal() {
-    this.hp = this.maxhp;
+  public void fullHeal() {
+    this.hp = this.maxHp;
   }
-  public void fullmana() {
-    this.mana = this.maxmana;
+  public void fullMana() {
+    this.mana = this.maxMana;
   }
   public boolean isDead() {
     return dead;
@@ -185,14 +191,44 @@ public class Player {
    * @param direction n, s, e, w
    */
   public void move(String direction) {
+    if (!getMapPos().town() && !this.randomEncounters) {
+      if (Utils.randPercent() <= this.encounterChance) {
+        startCombat(Utils.calcEncounter(), false);
+        System.out.println("You have been ambushed");
+        return;
+      }
+    }
     switch (direction) {
-      case "n" -> yPos -= 1;
-      case "e" -> xPos += 1;
-      case "s" -> yPos += 1;
-      case "w" -> xPos -= 1;
+      case "n" -> this.yPos -= 1;
+      case "e" -> this.xPos += 1;
+      case "s" -> this.yPos += 1;
+      case "w" -> this.xPos -= 1;
     }
   }
   public Location getMapPos() {
     return LocationMap.map[yPos][xPos];
+  }
+  public boolean isRandomEncounters() {
+    return randomEncounters;
+  }
+  public void setRandomEncounters(boolean randomEncounters) {
+    this.randomEncounters = randomEncounters;
+  }
+  public float getEncounterChance() {
+    return encounterChance;
+  }
+  public void setEncounterChance(float encounterChance) {
+    this.encounterChance = encounterChance;
+  }
+  public void startCombat(Enemy enemy, boolean heal) {
+    this.enemy = enemy;
+    this.combat = true;
+    this.playerTurn = true;
+    this.maxHp = Utils.calcHp(this.getItems());
+    this.maxMana = Utils.calcMana(this.getItems());
+    if (heal) {
+      fullHeal();
+      fullMana();
+    }
   }
 }
