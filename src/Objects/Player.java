@@ -22,16 +22,12 @@ public class Player {
   private int xPos;
   private int yPos;
   private boolean questCompleted;
-
   private boolean randomEncounters;
-
   private float encounterChance;
 
   public Player() {
     this.maxHp = 0;
-    this.hp = maxHp;
     this.maxMana = 0;
-    this.mana = maxMana;
     this.combat = false;
     this.playerTurn = true;
     this.dead = false;
@@ -173,7 +169,6 @@ public class Player {
 //  public void setyPos(int yPos) {
 //    this.yPos = yPos;
 //  }
-
   /**
    * @param direction n, s, e, w
    * @return true or false
