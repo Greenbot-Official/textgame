@@ -30,9 +30,9 @@ public class Game {
       if (user.getComplete()) Logic.questComplete(user);
       if (!user.isLoot() && !user.isDead() && !user.isCombat()) Logic.menu(user);
       if (user.isLoot()) Logic.lootMenu(user);
+      Logic.combat(user);
       String text = input.nextLine().toLowerCase();
       Logic.readInput(user, text);
-      Logic.combat(user);
       if (user.getHp() <= 0) user.die();
       if (user.getEnemy().getHp() <= 0 && user.isCombat()) user.kill();
     }
@@ -47,15 +47,9 @@ public class Game {
     user.setHeart(Items.heart);
     user.setArm(Items.arm);
     user.setLeg(Items.leg);
-    user.setMaxhp(Utils.calchp(user.getItems()));
-    user.fullheal();
-    user.setMaxmana(Utils.calcmana(user.getItems()));
-    user.fullmana();
     user.setQuest(Quests.first);
-    user.setEnemy(new Enemy(Enemies.feederhp, Enemies.feederItems));
-    user.setCombat(true);
-    user.setTurn(true);
-    Logic.combat(user);
+    user.startCombat(Enemies.feeder, true);
+    user.setRandomEncounters(false);
   }
 
 }

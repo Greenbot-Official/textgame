@@ -1,11 +1,8 @@
-import Objects.Item;
 import Objects.Player;
-import Utils.Enums.Attribute;
 import Utils.Enums.Command;
-import Utils.Utils;
 
-import static Utils.Utils.calcdamage;
-import Utils.LocationMap;
+import static Utils.Utils.calcDamage;
+
 import Utils.Quests;
 
 public class Logic {
@@ -26,8 +23,8 @@ public class Logic {
         System.out.println("leg: " + user.getLeg().name() + " - " + user.getLeg().special());
         break;
       case attack:
-        user.getEnemy().damage(calcdamage(user.getItems()));
-        System.out.println("you hit the enemy for: " + calcdamage(user.getItems()) + " damage");
+        user.getEnemy().damage(calcDamage(user.getItems()));
+        System.out.println("you hit the enemy for: " + calcDamage(user.getItems()) + " damage");
         user.setTurn(false);
         break;
       case getquest:
@@ -186,20 +183,21 @@ public class Logic {
       Command enemymove = getAi();
       switch (enemymove) {
         case attack:
-          user.damage(calcdamage(user.getEnemy().getItems()));
-          System.out.println("Enemy hit you for: " + calcdamage(user.getEnemy().getItems()) + " damage");
+          user.damage(calcDamage(user.getEnemy().getItems()));
+          System.out.println("Enemy hit you for: " + calcDamage(user.getEnemy().getItems()) + " damage");
           user.setTurn(true);
           break;
       }
     }
-    System.out.println("Hp: " + user.getHp() + "/" + user.getMaxhp());
-    System.out.println("Mana: " + user.getMana() + "/" + user.getMaxmana());
+    System.out.println("Hp: " + user.getHp() + "/" + user.getMaxHp());
+    System.out.println("Mana: " + user.getMana() + "/" + user.getMaxMana());
     System.out.println("\nEnemy:");
     System.out.println("Hp: " + user.getEnemy().getHp() + "/" + user.getEnemy().getMaxhp());
   }
 
   public static void questComplete(Player user) {
     System.out.println("Completed quest: " + user.getQuest().questname());
+    if (user.getQuest() == Quests.town) user.setRandomEncounters(true);
     user.setComplete(false);
     user.setQuest(user.getQuest().nextQuest());
   }
