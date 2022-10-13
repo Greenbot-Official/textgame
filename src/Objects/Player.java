@@ -226,4 +226,16 @@ public class Player {
       fullMana();
     }
   }
+  public static void none() {
+    System.out.println("you are unable to use a special ability");
+  }
+  public void jump() {
+    System.out.println("jump");
+  }
+  public void weakForesight() {
+    System.out.println("weakforsight ");
+  }
+  public void weakDrain() {
+    System.out.println("weakdrain ");
+  }
 }

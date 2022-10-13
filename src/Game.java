@@ -1,9 +1,11 @@
 import Objects.Enemy;
+import Objects.Item;
 import Objects.Player;
 import Utils.Enemies;
 import Utils.Items;
 import Utils.Utils;
 import Utils.Quests;
+import Utils.Specials;
 
 import java.util.Scanner;
 
@@ -43,6 +45,7 @@ public class Game {
   }
 
   private void init() {
+    initItems();
     user.setEye(Items.eye);
     user.setHeart(Items.heart);
     user.setArm(Items.arm);
@@ -50,6 +53,14 @@ public class Game {
     user.setQuest(Quests.first);
     user.startCombat(Enemies.feeder, true);
     user.setRandomEncounters(false);
+  }
+
+  // all not none specials are initialized here
+  private void initItems() {
+    Items.leg.setSpecial(Specials.jump(user));
+    Items.feederEye.setSpecial(Specials.weakForesight(user));
+    Items.feederHeart.setSpecial(Specials.weakDrain(user));
+    Items.feederLeg.setSpecial(Specials.jump(user));
   }
 
 }

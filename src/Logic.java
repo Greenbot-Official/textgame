@@ -85,6 +85,18 @@ public class Logic {
         user.setLeg(user.getEnemy().getLeg());
         user.setLoot(false);
         break;
+      case special_eye:
+        user.getEye().special().ability().run();
+        break;
+      case special_heart:
+        user.getHeart().special().ability().run();
+        break;
+      case special_arm:
+        user.getArm().special().ability().run();
+        break;
+      case special_leg:
+        user.getLeg().special().ability().run();
+        break;
       case unknown:
         System.out.println("Unknown command (" + input + "), try \"help\" to get help");
         break;
@@ -125,13 +137,13 @@ public class Logic {
       // combat commands
       if (input.equals("a") || input.equals("attack")) {
         return Command.attack;
-      } else if (input.equals(user.getEye().special().toString())) {
+      } else if (input.equals(user.getEye().special().name())) {
         return Command.special_eye;
-      } else if (input.equals(user.getHeart().special().toString())) {
+      } else if (input.equals(user.getHeart().special().name())) {
         return Command.special_heart;
-      } else if (input.equals(user.getArm().special().toString())) {
+      } else if (input.equals(user.getArm().special().name())) {
         return Command.special_arm;
-      } else if (input.equals(user.getLeg().special().toString())) {
+      } else if (input.equals(user.getLeg().special().name())) {
         return Command.special_leg;
       }
 
