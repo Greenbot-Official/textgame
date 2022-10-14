@@ -17,10 +17,10 @@ public class Logic {
         if (!user.isLoot() && !user.isCombat() && !user.isDead()) System.out.println("type \"n, s, e, w\" to move in that direction");
         break;
       case inv:
-        System.out.println("eye: " + user.getEye().name() + " - " + user.getEye().special());
-        System.out.println("heart: " + user.getHeart().name() + " - " + user.getHeart().special());
-        System.out.println("arm: " + user.getArm().name() + " - " + user.getArm().special());
-        System.out.println("leg: " + user.getLeg().name() + " - " + user.getLeg().special());
+        System.out.println("eye: " + user.getEye().name() + " - " + user.getEye().special().name());
+        System.out.println("heart: " + user.getHeart().name() + " - " + user.getHeart().special().name());
+        System.out.println("arm: " + user.getArm().name() + " - " + user.getArm().special().name());
+        System.out.println("leg: " + user.getLeg().name() + " - " + user.getLeg().special().name());
         break;
       case attack:
         user.getEnemy().damage(calcDamage(user.getItems()));
