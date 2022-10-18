@@ -28,7 +28,7 @@ public class Logic {
         user.setTurn(false);
         break;
       case getquest:
-        System.out.println(user.getQuest().questname() + " - " + user.getQuest().desc());
+        System.out.println(user.getQuest().questName() + " - " + user.getQuest().desc());
         break;
       case north:
         if (user.canMove("n")) {
@@ -208,7 +208,7 @@ public class Logic {
   }
 
   public static void questComplete(Player user) {
-    System.out.println("Completed quest: " + user.getQuest().questname());
+    System.out.println("Completed quest: " + user.getQuest().questName());
     if (user.getQuest() == Quests.town) user.setRandomEncounters(true);
     user.setComplete(false);
     user.setQuest(user.getQuest().nextQuest());

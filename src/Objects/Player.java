@@ -3,8 +3,10 @@ package Objects;
 import Utils.LocationMap;
 import Utils.Quests;
 import Utils.Utils;
+import Utils.Constants;
 
 public class Player {
+  private final Logger logger = Constants.logger;
   private int maxHp;
   private int hp;
   private int maxMana;
@@ -38,33 +40,41 @@ public class Player {
     this.questCompleted = false;
     this.randomEncounters = false;
     this.encounterChance = 0;
+    logger.log("initialized player: " + this);
   }
 
   public void damage(int dmg) {
     hp -= dmg;
+    logger.log("took " + dmg + "dmg");
   }
   public void heal(int heal) {
     hp += heal;
     if (hp> maxHp) hp = maxHp;
+    logger.log("healed " + heal + "hp");
   }
   public void healMana(int heal) {
     mana += heal;
     if (mana> maxMana) mana = maxMana;
+    logger.log("healed " + heal + "mana");
   }
   public boolean isCombat() {
     return combat;
   }
   public void setEye(Item eye) {
     this.eye = eye;
+    logger.log("set eye to: " + eye.toString());
   }
   public void setHeart(Item heart) {
     this.heart = heart;
+    logger.log("set heart to: " + heart.toString());
   }
   public void setArm(Item arm) {
     this.arm = arm;
+    logger.log("set arm to: " + arm.toString());
   }
   public void setLeg(Item leg) {
     this.leg = leg;
+    logger.log("set leg to: " + leg.toString());
   }
   public Item getEye() {
     return eye;
@@ -86,18 +96,22 @@ public class Player {
   }
   public void setEnemy(Enemy enemy) {
     this.enemy = enemy;
+    logger.log("set enemy to: " + enemy.toString());
   }
   public void setCombat(boolean iscombat) {
     combat = iscombat;
+    logger.log("set combat to: " + iscombat);
   }
   public boolean getTurn() {
     return playerTurn;
   }
   public void setTurn(boolean turn) {
     playerTurn = turn;
+    logger.log("set turn to: " + turn);
   }
   public void toggleTurn() {
     playerTurn = !playerTurn;
+    logger.log("set turn to: " + this.playerTurn);
   }
   public int getMaxMana() {
     return maxMana;
@@ -107,9 +121,11 @@ public class Player {
   }
   public void setMaxMana(int maxmana) {
     this.maxMana = maxmana;
+    logger.log("set maxMana to: " + maxmana);
   }
   public void setMaxHp(int maxhp) {
     this.maxHp = maxhp;
+    logger.log("set maxHp to: " + maxhp);
   }
   public int getHp() {
     return hp;
@@ -119,40 +135,48 @@ public class Player {
   }
   public void fullHeal() {
     this.hp = this.maxHp;
+    logger.log("full healed health");
   }
   public void fullMana() {
     this.mana = this.maxMana;
+    logger.log("full healed mana");
   }
   public boolean isDead() {
     return dead;
   }
   public void setDead (boolean dead) {
     this.dead = dead;
+    logger.log("set dead to: " + dead);
   }
   public boolean isLoot () {
     return loot;
   }
   public void setLoot (boolean loot) {
     this.loot = loot;
+    logger.log("set loot to: " + loot);
   }
   public void die() {
     System.out.println("you have died");
     setDead(true);
+    logger.log("player has died");
   }
   public void kill () {
     System.out.println("\nyou have killed an enemy");
     setLoot(true);
     setCombat(false);
     if (quest == Quests.first) setComplete(true);
+    logger.log("player has killed: " + this.enemy.toString());
   }
   public Quest getQuest() {
     return quest;
   }
   public void setQuest(Quest quest) {
     this.quest = quest;
+    logger.log("set quest to: " + quest.toString());
   }
   public void setComplete(boolean bool) {
     questCompleted = bool;
+    logger.log("set questCompleted to: " + bool);
   }
   public boolean getComplete() {
     return questCompleted;
@@ -190,6 +214,7 @@ public class Player {
       if (Utils.randPercent() <= this.encounterChance) {
         startCombat(Utils.calcEncounter(), false);
         System.out.println("You have been ambushed");
+        logger.log("random encounter");
         return;
       }
     }
@@ -199,6 +224,7 @@ public class Player {
       case "s" -> this.yPos += 1;
       case "w" -> this.xPos -= 1;
     }
+    logger.log("moved: " + direction);
   }
   public Location getMapPos() {
     return LocationMap.map[yPos][xPos];
@@ -208,12 +234,14 @@ public class Player {
   }
   public void setRandomEncounters(boolean randomEncounters) {
     this.randomEncounters = randomEncounters;
+    logger.log("set randomEncounters to: " + randomEncounters);
   }
   public float getEncounterChance() {
     return encounterChance;
   }
   public void setEncounterChance(float encounterChance) {
     this.encounterChance = encounterChance;
+    logger.log("set encounterChance to: " + encounterChance);
   }
   public void startCombat(Enemy enemy, boolean heal) {
     this.enemy = enemy;
@@ -225,5 +253,6 @@ public class Player {
       fullHeal();
       fullMana();
     }
+    logger.log("started combat with: " + enemy.toString());
   }
 }
