@@ -1,17 +1,21 @@
 package Objects;
 
 import Utils.Constants;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Location {
   private final Logger logger = Constants.logger;
   private final String name;
+  private List<NPC> npcs;
   private boolean n;
   private boolean e;
   private boolean s;
   private boolean w;
   private final boolean town;
-  public Location (String name, boolean n, boolean e, boolean s, boolean w, boolean town) {
+  public Location (String name, List<NPC> npcs, boolean n, boolean e, boolean s, boolean w, boolean town) {
     this.name = name;
+    this.npcs = npcs;
     this.n = n;
     this.e = e;
     this.s = s;
@@ -19,6 +23,24 @@ public class Location {
     this.town = town;
     logger.log("initialized location: " + this);
   }
+
+  public Location(String name, boolean n, boolean e, boolean s, boolean w, boolean town) {
+    this.name = name;
+    this.npcs = new ArrayList<>();
+    this.n = n;
+    this.e = e;
+    this.s = s;
+    this.w = w;
+    this.town = town;
+  }
+  public List<NPC> getNpcs() {
+    return npcs;
+  }
+
+  public void setNpcs(List<NPC> npcs) {
+    this.npcs = npcs;
+  }
+
   public String name() {
     return name;
   }
