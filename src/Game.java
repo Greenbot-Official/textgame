@@ -1,33 +1,29 @@
 import Objects.*;
-import Utils.Enemies;
-import Utils.Items;
-import Utils.Constants;
-import Utils.Quests;
-import Utils.Specials;
+import Utils.*;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Game {
   private static boolean isRunning;
-  private final Scanner input;
   private int loopCount = 0;
+  public static final Scanner input = new Scanner(System.in);
 
   private final Player user;
 
   private final Logger logger = Constants.logger;
 
   public Game() {
-    input = new Scanner(System.in);
+//    input = new Scanner(System.in);
     user = new Player();
   }
 
   public void start() {
     init();
     isRunning = true;
-    loop();
-    System.out.println("exiting ...");
+    while (isRunning) {
+      loop();
+    }
+    System.out.println("exiting...");
   }
 
   private void loop() {
@@ -59,7 +55,7 @@ public class Game {
     user.setArm(Items.arm);
     user.setLeg(Items.leg);
     user.setQuest(Quests.first);
-    user.startCombat(Enemies.feeder, true);
+    user.startCombat(new Enemy(Utils.calcHp(Enemies.feederItems), Enemies.feederItems), true);
     user.setRandomEncounters(false);
   }
 
@@ -70,6 +66,8 @@ public class Game {
     Items.feederEye.setSpecial(Specials.weakForesight(user));
     Items.feederHeart.setSpecial(Specials.weakDrain(user));
     Items.feederLeg.setSpecial(Specials.jump(user));
+
+    LocationMap.gameInit();
   }
 
 }
