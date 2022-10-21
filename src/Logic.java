@@ -1,3 +1,5 @@
+import Objects.Item;
+import Objects.NPC;
 import Objects.Player;
 import Utils.Enums.Command;
 
@@ -14,7 +16,7 @@ public class Logic {
         System.out.println("\"i\" - to view inventory, \"quest\" - view current quest, \"q\" - quit");
         if (user.isCombat()) System.out.println("\"a\" - to use default attack, or type the name of a special on an item to use it");
         if (user.isLoot()) System.out.println("type the name of the part you want to loot");
-        if (!user.isLoot() && !user.isCombat() && !user.isDead()) System.out.println("type \"n, s, e, w\" to move in that direction");
+        if (!user.isLoot() && !user.isCombat() && !user.isDead()) System.out.println("type \"n, s, e, w\" to move in that direction. type \"talk\" to talk to npcs nearby");
         break;
       case inv:
         System.out.println("eye: " + user.getEye().name() + " - " + user.getEye().special().name());
@@ -28,7 +30,7 @@ public class Logic {
         user.setTurn(false);
         break;
       case getquest:
-        System.out.println(user.getQuest().questname() + " - " + user.getQuest().desc());
+        System.out.println(user.getQuest().questName() + " - " + user.getQuest().desc());
         break;
       case north:
         if (user.canMove("n")) {
@@ -97,6 +99,26 @@ public class Logic {
       case special_leg:
         user.getLeg().special().ability().run();
         break;
+      case talk:
+        if (user.getMapPos().getNpcs().size() < 1) {
+          System.out.println("theres no npcs here");
+          return;
+        }
+        System.out.println("which npc?");
+        String npcName = Game.input.nextLine().toLowerCase();
+        for (NPC npc : user.getMapPos().getNpcs()) {
+          if (npcName.toLowerCase().equals(npcName)) {
+            if (user.getQuest() == null || user.getQuest() == Quests.none) {
+              System.out.println(npc.getTalk().get(npc.getTalkIndex()));
+              user.setQuest(npc.getQuests().get(npc.getTalkIndex()));
+              npc.setTalkIndex(npc.getTalkIndex() + 1);
+            } else {
+              System.out.println(npc.getDefaultTalk());
+            }
+          } else {
+            System.out.println("couldn't find that npc");
+          }
+        }
       case unknown:
         System.out.println("Unknown command (" + input + "), try \"help\" to get help");
         break;
@@ -132,6 +154,8 @@ public class Logic {
         case "w":
         case "west":
           return Command.west;
+        case "talk":
+          return Command.talk;
       }
     } else if (user.isCombat() && !user.isDead()) {
       // combat commands
@@ -179,7 +203,14 @@ public class Logic {
     if (user.canMove("e")) tmp = tmp + ", East";
     if (user.canMove("s")) tmp = tmp + ", South";
     if (user.canMove("w")) tmp = tmp + ", West";
-    System.out.println(tmp);
+    String tmp2 = "";
+    if (user.getMapPos().getNpcs().size() > 0) {
+      tmp2 = "\n\nNpcs:";
+      for (NPC npc : user.getMapPos().getNpcs()) {
+        tmp2 = tmp2 + ", " + npc.getName();
+      }
+    }
+    System.out.println(tmp + tmp2);
   }
 
   public static void lootMenu(Player user) {
@@ -208,7 +239,7 @@ public class Logic {
   }
 
   public static void questComplete(Player user) {
-    System.out.println("Completed quest: " + user.getQuest().questname());
+    System.out.println("Completed quest: " + user.getQuest().questName());
     if (user.getQuest() == Quests.town) user.setRandomEncounters(true);
     user.setComplete(false);
     user.setQuest(user.getQuest().nextQuest());

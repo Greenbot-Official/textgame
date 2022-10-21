@@ -1,6 +1,10 @@
 package Utils;
 
 import Objects.Location;
+import Objects.NPC;
+import Objects.Quest;
+
+import java.util.ArrayList;
 
 public class LocationMap {
   private static final Location empty = new Location("empty", false, false, false, false, false);
@@ -17,7 +21,19 @@ public class LocationMap {
   private static final Location roadEW = new Location("road", false, true, false, true, false);
   private static final Location roadSW = new Location("road", false, false, true, true, false);
 
-  private static final Location ftown = new Location("first town", true, false, true, false, true);
+  private static final ArrayList<Quest> villagerQuests = new ArrayList<>();
+  private static final ArrayList<String> villagerTalk = new ArrayList<>();
+
+  private static final NPC villager = new NPC("Villager", villagerQuests, villagerTalk, "hi lol");
+
+  private static final ArrayList<NPC> ftownNpcs = new ArrayList<>();
+  private static final Location ftown = new Location("first town", ftownNpcs, true, false, true, false, true);
+
+  public static void gameInit() {
+    villagerQuests.add(Quests.test);
+    villagerTalk.add("here is a test quest");
+    ftownNpcs.add(villager);
+  }
 
   /**
    * @apiNote [Y,X] north is -y

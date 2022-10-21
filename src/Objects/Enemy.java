@@ -1,6 +1,9 @@
 package Objects;
 
+import Utils.Constants;
+
 public class Enemy {
+  private final Logger logger = Constants.logger;
   private final int maxhp;
   private int hp;
   private final Item eye;
@@ -15,6 +18,7 @@ public class Enemy {
     this.heart = heart;
     this.arm = arm;
     this.leg = leg;
+    logger.log("initialized enemy: " + this);
   }
 
   public Enemy(int hp, Item[] item) {
@@ -24,6 +28,7 @@ public class Enemy {
     this.heart = item[1];
     this.arm = item[2];
     this.leg = item[3];
+    logger.log("initialized enemy: " + this);
   }
 
   public int getHp() {
@@ -31,6 +36,7 @@ public class Enemy {
   }
   public void damage(int dmg) {
     hp -= dmg;
+    logger.log(this + " took " + dmg + "dmg");
   }
   public int getMaxhp() {
     return maxhp;

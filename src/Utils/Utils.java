@@ -3,6 +3,7 @@ package Utils;
 import Objects.Enemy;
 import Objects.Item;
 import Utils.Enums.Attribute;
+import jdk.jshell.execution.Util;
 
 public class Utils {
   public static int calcDamage(Item[] items, float scale) {
@@ -56,6 +57,6 @@ public class Utils {
    */
   // add scaling
   public static Enemy calcEncounter() {
-    return Enemies.feeder;
+    return new Enemy(Utils.calcHp(Enemies.feederItems), Enemies.feederItems);
   }
 }
