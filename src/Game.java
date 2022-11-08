@@ -1,6 +1,7 @@
 import Objects.Player;
 import Utils.Constants;
 import Utils.Logger;
+import Utils.Spells;
 
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ public class Game {
   private static boolean isRunning;
   private final Logger logger = Constants.logger;
   private final Scanner input = new Scanner(System.in);
-  private String text;
+  private String[] text;
 
   private Player user;
 
@@ -27,14 +28,16 @@ public class Game {
     logger.log("exiting... ");
   }
 
-  private void init() {
-    user = new Player(100, 100);
-  }
 
   private void loop() {
     Logic.hud(this.user);
-    text = input.nextLine().toLowerCase();
+    text = input.nextLine().toLowerCase().split(" ", 2);
     Logic.readInput(user, text);
+  }
+
+  private void init() {
+    user = new Player(100, 100);
+    user.getSpells().add(Spells.flame);
   }
 
   public static void end() {

@@ -3,8 +3,8 @@ import Utils.Enums.Command;
 
 public class Logic {
 
-  public static void readInput(Player user, String input) {
-    switch (getCommand(user, input)) {
+  public static void readInput(Player user, String[] input) {
+    switch (getCommand(user, input[0])) {
       case quit -> Game.end();
       case help -> System.out.println("help - displays this menu\ninv - displays inventory\n");
       case inv -> System.out.println("inv");
