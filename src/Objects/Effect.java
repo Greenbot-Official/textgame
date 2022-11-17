@@ -7,12 +7,14 @@ public class Effect extends BaseObject {
   private final String name;
   private final String desc;
   private int duration;
+  private boolean debuff;
 
-  public Effect(String name, String desc, int duration) {
+  public Effect(String name, String desc, int duration, boolean debuff) {
     super("Effect");
     this.name = name;
     this.desc = desc;
     this.duration = duration;
+    this.debuff = debuff;
   }
   public String getName() {
     return name;
@@ -29,5 +31,8 @@ public class Effect extends BaseObject {
   }
   public void decrement() {
     setDuration(this.duration - 1);
+  }
+  public boolean isDebuff() {
+    return debuff;
   }
 }

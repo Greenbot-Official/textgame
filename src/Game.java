@@ -1,8 +1,10 @@
 import Objects.Player;
 import Utils.Constants;
+import Utils.Enemies;
 import Utils.Logger;
 import Utils.Spells;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Game {
@@ -30,14 +32,29 @@ public class Game {
 
 
   private void loop() {
-    Logic.hud(this.user);
-    text = input.nextLine().toLowerCase().split(" ", 2);
+    Logic.hud(user);
+    text = input.nextLine().toLowerCase().split("\s", 2);
+    try {
+      logger.log("command: " + text[0] + " args: " + text[1]);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      logger.log("command: " + text[0]);
+    }
     Logic.readInput(user, text);
+    Logic.combat(user);
   }
 
   private void init() {
     user = new Player(100, 100);
-    user.getSpells().add(Spells.flame);
+    initSpells();
+    user.setCombat(true);
+    user.setTurn(true);
+    user.setEnemy(Enemies.fireMage);
+  }
+
+  private void initSpells() {
+    logger.log("initializing spells...");
+    user.addSpell(Spells.flame);
+    Enemies.fireMage.addSpell(Spells.flame);
   }
 
   public static void end() {

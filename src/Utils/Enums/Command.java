@@ -1,5 +1,5 @@
 package Utils.Enums;
 
 public enum Command {
-  quit, help, inv, unknown
+  quit, help, inv, unknown, cast, spells
 }

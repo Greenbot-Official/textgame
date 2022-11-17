@@ -3,6 +3,6 @@ package Utils;
 import Objects.Effect;
 
 public class Effects {
-  public static Effect none = new Effect("none", "error", 0);
-  public static Effect burn = new Effect("burn", "take fire damage each turn", 3);
+  public static final Effect none = new Effect("none", "error", 0, false);
+  public static final Effect burn = new Effect("burn", "take fire damage each turn", 3, true);
 }

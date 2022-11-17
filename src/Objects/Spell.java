@@ -11,8 +11,9 @@ public class Spell extends BaseObject {
   private final int damage;
   private final Effect effect;
   private final Element element;
+  private final boolean heal;
 
-  public Spell(String name, String desc, int manaCost, int damage, Effect effect, Element element) {
+  public Spell(String name, String desc, int manaCost, int damage, Effect effect, Element element, boolean heal) {
     super("Spell");
     this.name = name;
     this.desc = desc;
@@ -20,6 +21,7 @@ public class Spell extends BaseObject {
     this.damage = damage;
     this.effect = effect;
     this.element = element;
+    this.heal = heal;
   }
 
   public String getName() {
@@ -36,5 +38,8 @@ public class Spell extends BaseObject {
   }
   public Effect getEffect() {
     return effect;
+  }
+  public boolean isHeal() {
+    return heal;
   }
 }
