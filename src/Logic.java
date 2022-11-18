@@ -1,7 +1,6 @@
+import Objects.*;
 import Objects.Character;
-import Objects.Enemy;
-import Objects.Player;
-import Objects.Spell;
+import Utils.Effects;
 import Utils.Enums.Command;
 
 public class Logic {
@@ -17,6 +16,7 @@ public class Logic {
       case cast -> {
         try {
           cast(user, input[1]);
+          user.setUpdateEffects(true);
         } catch (ArrayIndexOutOfBoundsException e) {
           System.out.println("could not find that spell");
         }
@@ -114,5 +114,33 @@ public class Logic {
   public static void kill(Player user) {
     System.out.println("you killed the " + user.getEnemy().getName());
     user.setCombat(false);
+  }
+
+  public static void updateEffects(Player user) {
+    if (user.isUpdateEffects()) {
+      user.setUpdateEffects(false);
+      if (user.getEffects().size() == 0) return;
+      for (int i = 0 ; i < user.getEffects().size() ; i++) {
+        runEffect(user.getEffects().get(i), user);
+      }
+      if (user.getEnemy().getEffects().size() == 0) return;
+      for (int i = 0 ; i < user.getEnemy().getEffects().size() ; i++) {
+        runEffect(user.getEnemy().getEffects().get(i), user.getEnemy());
+      }
+      user.getEffects().removeIf(effect -> (effect.getDuration()) <= 0);
+      user.getEnemy().getEffects().removeIf(effect -> (effect.getDuration()) <= 0);
+    }
+    if (user.getHp() <= 0 && user.isNotDead()) die(user);
+    if (user.getEnemy().getHp() <= 0 && user.isNotDead()) kill(user);
+  }
+
+  public static void runEffect(Effect effect, Character target) {
+    switch (effect.getName()) {
+      case "burn" -> {
+        target.damage(5);
+        System.out.println(target.getName() + " took 5 damage from burn");
+        effect.decrement();
+      } default -> System.out.println("unknown effect");
+    }
   }
 }

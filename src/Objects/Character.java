@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Character extends BaseObject {
+  protected String name;
   protected int maxHp;
   protected int hp;
   protected int maxMana;
@@ -16,6 +17,7 @@ public abstract class Character extends BaseObject {
 
   public Character(String name, int maxHp, int maxMana) {
     super(name);
+    this.name = name;
     this.maxHp = maxHp;
     this.hp = maxHp;
     this.maxMana = maxMana;
@@ -24,6 +26,9 @@ public abstract class Character extends BaseObject {
     this.effectList = new ArrayList<>();
   }
 
+  public String getName() {
+    return name;
+  }
   public int getMaxHp() {
     return maxHp;
   }
@@ -69,7 +74,7 @@ public abstract class Character extends BaseObject {
     return effectList;
   }
   public void addEffect(Effect effect) {
-    effectList.add(effect);
+    effectList.add(new Effect(effect));
     logger.log(this + " added effect: " + effect);
   }
   public void removeEffect(int index) {

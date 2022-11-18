@@ -1,19 +1,22 @@
 package Objects;
 
 import Utils.Constants;
+import Utils.Effects;
 import Utils.Enums.Element;
 import Utils.Logger;
+
+import static Utils.Effects.*;
 
 public class Spell extends BaseObject {
   private final String name;
   private final String desc;
   private final int manaCost;
   private final int damage;
-  private final Effect effect;
+  private Effect effect;
   private final Element element;
   private final boolean heal;
 
-  public Spell(String name, String desc, int manaCost, int damage, Effect effect, Element element, boolean heal) {
+  public Spell(String name, String desc, int manaCost, int damage, Element element, boolean heal, Effect effect) {
     super("Spell");
     this.name = name;
     this.desc = desc;
@@ -41,5 +44,9 @@ public class Spell extends BaseObject {
   }
   public boolean isHeal() {
     return heal;
+  }
+  public void setEffect(Effect effect) {
+    this.effect = effect;
+    logger.log("set " + this + " special: " + effect);
   }
 }

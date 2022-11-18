@@ -1,8 +1,5 @@
 import Objects.Player;
-import Utils.Constants;
-import Utils.Enemies;
-import Utils.Logger;
-import Utils.Spells;
+import Utils.*;
 
 import java.util.Scanner;
 
@@ -31,8 +28,7 @@ public class Game {
 
 
   private void loop() {
-    if (user.getHp() <= 0 && user.isNotDead()) Logic.die(user);
-    if (user.getEnemy().getHp() <= 0 && user.isNotDead()) Logic.kill(user);
+    Logic.updateEffects(user);
     Logic.hud(user);
     text = input.nextLine().toLowerCase().split("\s", 2);
     try {

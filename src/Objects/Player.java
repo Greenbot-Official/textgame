@@ -6,6 +6,7 @@ public class Player extends Character {
   private boolean combat;
   private boolean turn;
   private boolean dead;
+  private boolean updateEffects;
   private Enemy enemy;
 
   public Player(int maxHp, int maxMana) {
@@ -13,6 +14,7 @@ public class Player extends Character {
     this.combat = false;
     this.turn = true;
     this.dead = false;
+    this.updateEffects = false;
     this.enemy = Enemies.none;
   }
 
@@ -36,6 +38,13 @@ public class Player extends Character {
   public void setDead(boolean dead) {
     this.dead = dead;
     logger.log("set dead to: " + dead);
+  }
+  public boolean isUpdateEffects() {
+    return updateEffects;
+  }
+  public void setUpdateEffects(boolean updateEffects) {
+    this.updateEffects = updateEffects;
+    logger.log("set updateEffects to: " + updateEffects);
   }
   public Enemy getEnemy() {
     return enemy;
