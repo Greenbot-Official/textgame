@@ -4,7 +4,6 @@ import Utils.Enemies;
 import Utils.Logger;
 import Utils.Spells;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Game {
@@ -32,6 +31,8 @@ public class Game {
 
 
   private void loop() {
+    if (user.getHp() <= 0 && user.isNotDead()) Logic.die(user);
+    if (user.getEnemy().getHp() <= 0 && user.isNotDead()) Logic.kill(user);
     Logic.hud(user);
     text = input.nextLine().toLowerCase().split("\s", 2);
     try {

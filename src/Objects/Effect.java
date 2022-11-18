@@ -7,7 +7,7 @@ public class Effect extends BaseObject {
   private final String name;
   private final String desc;
   private int duration;
-  private boolean debuff;
+  private final boolean debuff;
 
   public Effect(String name, String desc, int duration, boolean debuff) {
     super("Effect");

@@ -104,4 +104,15 @@ public class Logic {
   public static Spell getAi(Enemy enemy) {
     return enemy.getSpells().get(0);
   }
+
+  public static void die(Player user) {
+    System.out.println("you have been killed");
+    user.setCombat(false);
+    user.setDead(true);
+  }
+
+  public static void kill(Player user) {
+    System.out.println("you killed the " + user.getEnemy().getName());
+    user.setCombat(false);
+  }
 }
